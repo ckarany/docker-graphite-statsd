@@ -57,7 +57,9 @@ RUN ln -s /etc/nginx/sites-available/graphite.conf /etc/nginx/sites-enabled/grap
 
 # init django admin
 ADD scripts/django_admin_init.exp /usr/local/bin/django_admin_init.exp
-RUN /usr/local/bin/django_admin_init.exp
+# RUN /usr/local/bin/django_admin_init.exp
+ADD my_init /sbin/my_init
+RUN chmod +x /sbin/my_init
 
 # logging support
 RUN mkdir -p /var/log/carbon /var/log/graphite /var/log/nginx
@@ -79,3 +81,4 @@ EXPOSE 80:80 2003:2003 8125:8125/udp
 VOLUME ["/opt/graphite", "/etc/nginx", "/opt/statsd", "/etc/logrotate.d", "/var/log"]
 ENV HOME /root
 CMD ["/sbin/my_init"]
+
